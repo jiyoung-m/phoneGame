@@ -7,8 +7,8 @@ Judge judge;
 Judge::State state;
 
 void UI::Initialize() {
-
-	score = 0;
+	Score() = 0;
+	scoreMax = 600;
 	life = 3;
 	lifeCnt = false;
 	state = Judge::State::okay;
@@ -19,11 +19,10 @@ void UI::Initialize() {
 }
 
 void UI:: Update() {
-	state = judge.Judge_State(); //<<<<<<<<<<<<<<<<<<<<<<<?????????????????
+	state = judge.Judge_State();
 	if (state == Judge::State::okay)
 	{
 		lifeCnt = false;
-		++score;
 	}
 	else if (state == Judge::State::notOkay)
 	{
@@ -40,7 +39,10 @@ void UI:: Update() {
 }
 
 void UI::Draw() {
-
+	DrawScore(Score(), scoreMax);
+	if (Score() >= scoreMax) {
+		Score() = scoreMax;
+	}
 	
 	if (state == Judge::State::okay)
 	{
@@ -57,10 +59,26 @@ void UI::Draw() {
 		DrawGraph(351, 7, pic_pass, TRUE);
 	}
 
-	DrawFormatString(0, 150, white, "score: %dì_, life: %d / %d", score, life, judge.Judge_State());
+	DrawFormatString(0, 170, white, "score: %dì_, life: %d, %d, %d", 
+		Score(), life, judge.Judge_State(), judge.count_time);
 
 	}
 
 void UI::Finalize() 
 {
 }
+
+void UI::DrawScore(int score, int scoreMax) {
+	int color = GetColor(0, 0, 0);
+	DrawBox(20, 70, 20 + 50, 70 + 500, color, FALSE);        //ògÇï`âÊ
+	DrawBox(20, 70 + 500 - (500 * score / scoreMax), 20 + 50, 70+500, color, TRUE);    //HPÉQÅ[ÉWÇï`âÊ
+}
+
+int& Score(int s)
+{
+	static int score;
+
+	score += s;
+	return score;
+}
+

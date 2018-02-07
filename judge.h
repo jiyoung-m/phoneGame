@@ -21,7 +21,7 @@ public:
 		pass
 	};
 	void Init_Time();
-	void Judge_Time();
+	bool Judge_See();
 	void Eye_Move();
 	enum State Judge_State();
 
@@ -30,16 +30,12 @@ public:
 	int limit_time;
 	int count_time;
 
-	int test = 0;
-
-
-
 
 
 
 
 	//UI
-	int mob;		//handle
+	int mob;		//image handle
 	int eye;
 	int bg;
 

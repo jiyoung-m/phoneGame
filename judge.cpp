@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "judge.h"
 #include "Player.h"
+#include "UI.h"
 
 // このファイル内でしか使えないグローバル変数
 
@@ -14,7 +15,7 @@ void Judge::Initialize() {
 	count_time = 0;
 
 
-	white = GetColor(0, 255, 255);
+	white = GetColor(255, 0, 255);
 
 	//UI
 	mob = LoadGraph("image/mob.png");
@@ -23,55 +24,49 @@ void Judge::Initialize() {
 	mobEye_w = 100;
 	eye_w = 20;
 	eye_x = 0.f;
+
 }
 
 // 動きを計算する
 void Judge::Update() {
 
 	++count_time;
-	Judge_State();
-	Judge_Time();
+	see = Judge_See();
 
+	Judge_State();
 	Eye_Move();
 
 }
 
 // 描画する
 void Judge::Draw() {
-	DrawGraph(0, 0, bg, TRUE);
-	DrawFormatString(0, 0, white, "%d / %d / %d",count_time, limit_time, state );
-	if (state == notOkay)
-	{
-		DrawFormatString(0, 100, white, "捕まえた");
-	}
-
-
-	//UI
+	DrawGraph(0, 0, bg, TRUE); //BackGround
+	//UI - Eye
 	DrawGraph(200, 0, mob, TRUE);
 	DrawGraphF(200 + mobEye_w + eye_x - eye_w, 0 + (mobEye_w / 2) - eye_w / 2.f, eye, TRUE);
-	
 
+	DrawFormatString(0, 0, white, "%d / %d", count_time, limit_time);
+	DrawFormatString(0, 150, white, "score: %d点, %d, %d", Score(),Judge_State(), see);
 }
 
 // 終了処理をする
 void Judge::Finalize() {
 }
 
-void Judge::Judge_Time()
+bool Judge::Judge_See()
 {
 	if (count_time >= limit_time)		//見る
 	{
-		see = true;
+		if (count_time >= (limit_time + 50)) //ディレイ(50)後初期化
+		{
+			Init_Time();
+		}
+		return true;
 	}
 
-	if (count_time >= (limit_time + 50)) //ディレイ(50)後初期化
+	else								//見ない
 	{
-		Init_Time();
-	}
-
-	if (count_time < limit_time)		//見ない
-	{
-		see = false;
+		return false;
 	}
 }
 
@@ -95,19 +90,24 @@ void Judge::Eye_Move()
 
 enum Judge::State Judge::Judge_State()
 {
-	if (player.Concent() && see)
+	if (see)
 	{
-		state = okay;
+		if (player.Concent())	//見ている&&集中する
+		{
+			state = okay;
+		}
+		else					//見ている&&集中しない
+		{
+			state = notOkay;
+		}
 	}
-
-	if (!player.Concent() && see)
-	{
-		state = notOkay;
-	}
-	if (!see)
+	if (!see)					
 	{
 		state = pass;
+		if (!player.Concent())	//見てない&&集中しない
+		{
+			Score(1);
+		}						//見てない&&集中する
 	}
-
 	return state;
 }

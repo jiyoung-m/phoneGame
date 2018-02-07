@@ -15,11 +15,12 @@ public:
 	void Finalize();
 
 
+	void DrawScore(int score, int scoreMax);
+	int scoreMax;
 
 	int white;
 
 
-	int score;
 	int life;
 	bool lifeCnt;
 
@@ -30,6 +31,7 @@ public:
 private:
 };
 
+inline int& Score(int s = 0);
 
 
 #endif 
