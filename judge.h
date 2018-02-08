@@ -23,25 +23,30 @@ public:
 	void Init_Time();
 	bool Judge_See();
 	void Eye_Move();
-	enum State Judge_State();
+	void Judge_State(bool see);
 
 	State state;
 	bool see;
 	int limit_time;
 	int count_time;
+	int delay;
 
 
 
 
 
 	//UI
-	int mob;		//image handle
-	int eye;
-	int bg;
+	int bg;			//image handle BG
+	int mob;		//mob@iŒã‚ÅBG‚Æ‡¬
+	int eye;		//eye
+	int pic_okay;	
+	int pic_notOkay;
+	int pic_pass;
 
 	int mobEye_w;
 	int eye_w;
 	float eye_x;
+	bool lifeCnt;
 
 private:
 	int white;

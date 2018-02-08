@@ -24,14 +24,12 @@ public:
 	int life;
 	bool lifeCnt;
 
-	int pic_okay ;
-	int pic_notOkay ;
-	int pic_pass ;
 
 private:
 };
 
 inline int& Score(int s = 0);
+inline int& Life(int l = 0);
 
 
 #endif 

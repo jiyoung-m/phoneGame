@@ -3,39 +3,16 @@
 #include "Judge.h"
 
 
-Judge judge;
-Judge::State state;
 
 void UI::Initialize() {
 	Score() = 0;
 	scoreMax = 600;
-	life = 3;
+	Life() = 3;
 	lifeCnt = false;
-	state = Judge::State::okay;
 
-	pic_okay = LoadGraph("image/okay.png");
-	pic_notOkay = LoadGraph("image/notOkay.png");
-	pic_pass = LoadGraph("image/pass.png");
 }
 
 void UI:: Update() {
-	state = judge.Judge_State();
-	if (state == Judge::State::okay)
-	{
-		lifeCnt = false;
-	}
-	else if (state == Judge::State::notOkay)
-	{
-		life -= 1;
-		if (lifeCnt == false)
-		{
-			lifeCnt = true;
-		}
-	}
-	else
-	{
-		lifeCnt = false;
-	}
 }
 
 void UI::Draw() {
@@ -44,23 +21,6 @@ void UI::Draw() {
 		Score() = scoreMax;
 	}
 	
-	if (state == Judge::State::okay)
-	{
-		DrawGraph(402, 47, pic_okay, TRUE);
-
-	}
-	else if (state == Judge::State::notOkay)
-	{
-		DrawGraph(304, 0, pic_notOkay, TRUE);
-
-	}
-	if (state == Judge::State::pass)
-	{
-		DrawGraph(351, 7, pic_pass, TRUE);
-	}
-
-	DrawFormatString(0, 170, white, "score: %d“_, life: %d, %d, %d", 
-		Score(), life, judge.Judge_State(), judge.count_time);
 
 	}
 
@@ -80,5 +40,13 @@ int& Score(int s)
 
 	score += s;
 	return score;
+}
+
+int& Life(int l)
+{
+	static int life;
+
+	life += l;
+	return life;
 }
 
