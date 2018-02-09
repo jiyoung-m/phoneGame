@@ -73,16 +73,16 @@ void Judge::Finalize() {
 
 bool Judge::Judge_See()
 {
-	if (count_time >= limit_time - delay || count_time <= delay)		//見る
+	if (count_time >= limit_time - delay || count_time <= delay)		//見られている
 	{
-		if (count_time >= (limit_time + 50)) //ディレイ(50)後初期化
+		if (count_time >= (limit_time + 50) && state != notOkay) //ディレイ(50)後初期化
 		{
 			Init_Time();
 		}
 		return true;
 	}
 
-	else								//見ない
+	else								//見られてない
 	{
 		return false;
 	}
@@ -97,11 +97,11 @@ void Judge::Init_Time()
 
 void Judge::Eye_Move()
 {
-	if (count_time >= limit_time)
+	if (count_time >= limit_time)		//目隠し用　見られてない
 	{
 		eye_x = 0;
 	}
-	else
+	else								//目隠し用　見られてる
 	{
 		eye_x -= 80.f / limit_time;
 	}
@@ -111,12 +111,12 @@ void Judge::Judge_State(bool see)
 {
 	if (see)
 	{
-		if (player.Concent())	//見ている&&集中する
+		if (player.Concent())	//見られてる&&集中する
 		{
 			state = okay;
 			lifeCnt = false;
 		}
-		else					//見ている&&集中しない
+		else					//見られてる&&集中しない
 		{
 			if (lifeCnt == false)
 			{
@@ -131,9 +131,9 @@ void Judge::Judge_State(bool see)
 	{
 		state = pass;
 		lifeCnt = false;
-		if (!player.Concent())	//見てない&&集中しない
+		if (!player.Concent())	//見られててない&&集中しない
 		{
 			++Score();
-		}						//見てない&&集中する
+		}						//見られてない&&集中する
 	}
 }
