@@ -3,7 +3,7 @@
 #include "Keyboard.h"
 #include "Judge.h"
 
-
+Judge judge;
 
 
 	// ‰Šú‰»‚ğ‚·‚é
@@ -13,17 +13,19 @@ void Player::Initialize() {
 
 	pic_concent = LoadGraph("image/concent.png");
 	pic_phone = LoadGraph("image/phone.png");
+	bg = LoadGraph("image/bg.png");
 }
 
 // “®‚«‚ğŒvZ‚·‚é
 void Player::Update() {
-
+	
 	concentrate = Concent();
 		
 }
 
 // •`‰æ‚·‚é
 void Player::Draw() {
+	DrawGraph(0, 0, bg, TRUE); //BackGround
 	if (Concent())
 	{
 		DrawFormatString(0, 50, white, "W’†");
@@ -34,6 +36,7 @@ void Player::Draw() {
 		DrawFormatString(0, 50, white, "Œg‘Ñ");
 		DrawGraph(16,160, pic_phone, TRUE);
 	}
+
 }
 
 // I—¹ˆ—‚ğ‚·‚é

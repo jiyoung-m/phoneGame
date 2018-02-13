@@ -17,8 +17,11 @@ public:
 	bool Concent();
 
 	bool concentrate;
+
+	int bg;			//image handle BG
 	int pic_concent;
 	int pic_phone;
+	
 
 private:
 	int white;

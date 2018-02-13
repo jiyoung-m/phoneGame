@@ -22,8 +22,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		player.Update();
 		ui.Update();
 
-		judge.Draw();
 		player.Draw();
+		judge.Draw();
 		ui.Draw();
 	}
 	judge.Finalize();
